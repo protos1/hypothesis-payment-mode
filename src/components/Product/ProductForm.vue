@@ -1,10 +1,17 @@
 <template>
   <div>
-    <h2 class="s1-U__text-color--primary md-title s1-U__mg--tp16 s1-U__mg--bt16">Informações gerais</h2>
+    <h2
+      class="s1-U__text-color--primary md-title s1-U__mg--tp16 s1-U__mg--bt16"
+    >
+      Informações gerais
+    </h2>
     <div class="s1-loc__md-field-wrapper s1-U__width--180px">
       <md-field
         class="md-field-helper-text"
-        :class="{'md-invalid md-field-helper-text': $v.Product.Form.Name.$dirty && $v.Product.Form.Name.$invalid}"
+        :class="{
+          'md-invalid md-field-helper-text':
+            $v.Product.Form.Name.$dirty && $v.Product.Form.Name.$invalid
+        }"
       >
         <label for="Product-Name">Nome</label>
         <md-input
@@ -17,37 +24,64 @@
           maxlength="20"
           required
         ></md-input>
-        <span class="md-error" v-if="!$v.Product.Form.Name.required">Required field</span>
-        <span class="md-error" v-if="!$v.Product.Form.Name.minLength">4 characters minimum</span>
+        <span class="md-error" v-if="!$v.Product.Form.Name.required"
+          >Required field</span
+        >
+        <span class="md-error" v-if="!$v.Product.Form.Name.minLength"
+          >4 characters minimum</span
+        >
       </md-field>
     </div>
-    <h2 class="s1-U__text-color--primary md-title s1-U__mg--tp16 s1-U__mg--bt16">Formas de pagamento</h2>
+    <h2
+      class="s1-U__text-color--primary md-title s1-U__mg--tp16 s1-U__mg--bt16"
+    >
+      Formas de pagamento
+    </h2>
 
     <div class="s1-U__width--400px" v-if="AllPayments.length === 0">
-      <p class="s1-U__text-color--dark-2">Nenhuma forma de pagamento adicionada (obrigatório)</p>
-      <md-button class="s1-md-bordered md-primary s1-U__mg--tp8" @click="showDialog = true">
-        <span class="s1-U__pd--lt8 s1-U__pd--rt8">Adicionar formas de pagamento</span>
+      <p class="s1-U__text-color--dark-2">
+        Nenhuma forma de pagamento adicionada (obrigatório)
+      </p>
+      <md-button
+        class="s1-md-bordered md-primary s1-U__mg--tp8"
+        @click="showDialog = true"
+      >
+        <span class="s1-U__pd--lt8 s1-U__pd--rt8"
+          >Adicionar formas de pagamento</span
+        >
       </md-button>
     </div>
 
-    <md-table md-card class="s1-U__width--400px pb" v-if="AllPayments.length > 0">
+    <md-table
+      md-card
+      class="s1-U__width--400px pb"
+      v-if="AllPayments.length > 0"
+    >
       <md-table-toolbar>
         <div
           class="s1-U__align-children--center s1-U__justify-content--space-between s1-U__full-width"
         >
-          <h3
-            class="md-body-2 s1-U__text-color--dark-2 s1-U__pd--lt12"
-          >{{ AllPayments.length }} adicionadas</h3>
+          <h3 class="md-body-2 s1-U__text-color--dark-2 s1-U__pd--lt12">
+            {{ AllPayments.length }} adicionadas
+          </h3>
           <div>
             <md-button
               class="s1-md-bordered md-dense md-primary"
               @click="showDialog = !showDialog"
-              :disabled="AllPayments.length === ChargeMethodOptions.length * PaymentOptions.length"
-            >Adicionar formas de pagamento</md-button>
+              :disabled="
+                AllPayments.length ===
+                  ChargeMethodOptions.length * PaymentOptions.length
+              "
+              >Adicionar formas de pagamento</md-button
+            >
             <md-tooltip
               md-direction="bottom"
-              v-show="AllPayments.length === ChargeMethodOptions.length * PaymentOptions.length"
-            >Todas as possibilidades adicionadas</md-tooltip>
+              v-show="
+                AllPayments.length ===
+                  ChargeMethodOptions.length * PaymentOptions.length
+              "
+              >Todas as possibilidades adicionadas</md-tooltip
+            >
           </div>
         </div>
       </md-table-toolbar>
@@ -57,15 +91,23 @@
         :style="`border-left: 3px solid ${getColor(pm[0])}`"
       >
         <md-table-cell>
-          <span>{{pm[0]}}</span>
-          <span class="s1-U__mg--lt4 s1-U__text-lowercase">{{pm[1]}}</span>
+          <span>{{ pm[0] }}</span>
+          <span class="s1-U__mg--lt4 s1-U__text-lowercase">{{ pm[1] }}</span>
         </md-table-cell>
-        <md-table-cell class="s1-U__text-align--right s1-U__pd--tp8 s1-U__pd--bt8">
-          <div class="s1-U__align-children--center s1-U__justify-content--flex-end">
+        <md-table-cell
+          class="s1-U__text-align--right s1-U__pd--tp8 s1-U__pd--bt8"
+        >
+          <div
+            class="s1-U__align-children--center s1-U__justify-content--flex-end"
+          >
             <div
               class="s1-U__flex-shrink-0"
               style="position: relative"
-              v-if="pm[1] === 'Parcelado' || pm[1] === 'Recorrente' || pm[1] === 'Mista'"
+              v-if="
+                pm[1] === 'Parcelado' ||
+                  pm[1] === 'Recorrente' ||
+                  pm[1] === 'Mista'
+              "
             >
               <md-button
                 style="min-width: auto"
@@ -76,11 +118,13 @@
                   <!-- <span
                     class="s1-U__text-lowercase"
                   >Entre {{Installments[`${pm[0]} ${pm[1]}`].min}}x e {{Installments[`${pm[0]} ${pm[1]}`].max}}x</span>-->
-                  <span
-                    class="s1-U__text-lowercase"
-                  >em até {{Installments[`${pm[0]} ${pm[1]}`].max}}x</span>
+                  <span class="s1-U__text-lowercase"
+                    >em até {{ Installments[`${pm[0]} ${pm[1]}`].max }}x</span
+                  >
                   <md-icon>arrow_drop_down</md-icon>
-                  <md-tooltip md-direction="left">Configurar parcelas</md-tooltip>
+                  <md-tooltip md-direction="left"
+                    >Configurar parcelas</md-tooltip
+                  >
                 </div>
               </md-button>
               <transition name="fade">
@@ -106,7 +150,9 @@
                       ></md-input>
                     </md-field>
                     <span class="s1-U__mg--lt8 s1-U__mg--rt8">e</span>-->
-                    <span class="s1-U__mg--rt8" style="white-space: nowrap">em até</span>
+                    <span class="s1-U__mg--rt8" style="white-space: nowrap"
+                      >em até</span
+                    >
                     <!-- <md-field
                       class="md-field-helper-text s1-md-field--w50px s1-U__mg0"
                       :md-counter="false"
@@ -121,7 +167,10 @@
                         required
                       ></md-input>
                     </md-field>-->
-                    <md-field class="md-field-helper-text s1-U__mg0" style="width: 80px">
+                    <md-field
+                      class="md-field-helper-text s1-U__mg0"
+                      style="width: 80px"
+                    >
                       <md-select
                         v-model="Installments[`${pm[0]} ${pm[1]}`].max"
                         class="s1-U__pd--lt16"
@@ -129,14 +178,22 @@
                         :name="`max-${index}`"
                         @blur="setPayments(AllPayments, Installments)"
                       >
-                        <md-option v-for="n in 24" :key="`option-${n}`" :value="n">{{n}}</md-option>
+                        <md-option
+                          v-for="n in 24"
+                          :key="`option-${n}`"
+                          :value="n"
+                          >{{ n }}</md-option
+                        >
                       </md-select>
                     </md-field>
                     <span class="s1-U__mg--lt8 s1-U__mg--rt8">vezes</span>
                     <md-button
                       class="s1-md-bordered md-primary md-dense squared s1-U__mg--lt16 s1-U__flex-shrink-0"
                       style="min-width: auto; transform: translateY(-2px)"
-                      @click="Installments[`${pm[0]} ${pm[1]}`].menu = false; setPayments(AllPayments, Installments)"
+                      @click="
+                        Installments[`${pm[0]} ${pm[1]}`].menu = false;
+                        setPayments(AllPayments, Installments);
+                      "
                     >
                       <span>OK</span>
                     </md-button>
@@ -161,81 +218,101 @@
         class="s1-U__pd24 s1-U__align-children--center s1-U__justify-content--space-between s1-U__flex-shrink-0"
       >
         <h2 class="md-headline">Formas de pagamento</h2>
-        <md-button class="squared md-dense md-icon-button" @click="closeDialog()">
+        <md-button
+          class="squared md-dense md-icon-button"
+          @click="closeDialog()"
+        >
           <md-icon>close</md-icon>
         </md-button>
       </div>
       <md-dialog-content class="s1-U__pd24">
-        <p class="s1-U__text-color--dark-2">Formas de cobrança produto oferece:</p>
+        <p class="s1-U__text-color--dark-2">
+          Formas de cobrança produto oferece:
+        </p>
         <div>
           <md-checkbox
             class="s1-U__mg--rt48"
             v-model="ChargesSelected"
             :disabled="isChargeDisable('Crédito')"
-            :class="{ 's1-U__text-color--dark-3' : isChargeDisable('Crédito')}"
+            :class="{ 's1-U__text-color--dark-3': isChargeDisable('Crédito') }"
             value="Crédito"
-          >Crédito</md-checkbox>
+            >Crédito</md-checkbox
+          >
           <md-checkbox
             class="s1-U__mg--rt48"
             v-model="ChargesSelected"
             :disabled="isChargeDisable('Débito')"
-            :class="{ 's1-U__text-color--dark-3' : isChargeDisable('Débito')}"
+            :class="{ 's1-U__text-color--dark-3': isChargeDisable('Débito') }"
             value="Débito"
-          >Débito</md-checkbox>
+            >Débito</md-checkbox
+          >
           <md-checkbox
             class="s1-U__mg--rt48"
             v-model="ChargesSelected"
             :disabled="isChargeDisable('Boleta')"
-            :class="{ 's1-U__text-color--dark-3' : isChargeDisable('Boleta')}"
+            :class="{ 's1-U__text-color--dark-3': isChargeDisable('Boleta') }"
             value="Boleta"
-          >Boleta</md-checkbox>
+            >Boleta</md-checkbox
+          >
         </div>
 
-        <p
-          class="s1-U__text-color--dark-2 s1-U__mg--tp24"
-        >Selecione as opções de pagamento que seu produto oferece:</p>
+        <p class="s1-U__text-color--dark-2 s1-U__mg--tp24">
+          Selecione as opções de pagamento que seu produto oferece:
+        </p>
         <md-checkbox
           class="s1-U__mg--rt48"
           v-model="PaymentsSelected"
           :disabled="isPaymentDisable('À vista')"
-          :class="{'s1-U__text-color--dark-3' : isPaymentDisable('À vista')}"
+          :class="{ 's1-U__text-color--dark-3': isPaymentDisable('À vista') }"
           value="À vista"
-        >À vista</md-checkbox>
+          >À vista</md-checkbox
+        >
         <md-checkbox
           class="s1-U__mg--rt48"
           v-model="PaymentsSelected"
           :disabled="isPaymentDisable('Parcelado')"
-          :class="{'s1-U__text-color--dark-3' : isPaymentDisable('Parcelado')}"
+          :class="{ 's1-U__text-color--dark-3': isPaymentDisable('Parcelado') }"
           value="Parcelado"
-        >Parcelado</md-checkbox>
+          >Parcelado</md-checkbox
+        >
         <md-checkbox
           class="s1-U__mg--rt48"
           v-model="PaymentsSelected"
           :disabled="isPaymentDisable('Recorrente')"
-          :class="{'s1-U__text-color--dark-3' : isPaymentDisable('Recorrente')}"
+          :class="{
+            's1-U__text-color--dark-3': isPaymentDisable('Recorrente')
+          }"
           value="Recorrente"
-        >Recorrente</md-checkbox>
+          >Recorrente</md-checkbox
+        >
         <md-checkbox
           class="s1-U__mg--rt48"
           v-model="PaymentsSelected"
           :disabled="isPaymentDisable('Mista')"
-          :class="{'s1-U__text-color--dark-3' : isPaymentDisable('Mista')}"
+          :class="{ 's1-U__text-color--dark-3': isPaymentDisable('Mista') }"
           value="Mista"
-        >Mista</md-checkbox>
+          >Mista</md-checkbox
+        >
         <p
           class="s1-U__text-color--dark-2 s1-U__mg--tp24"
           v-show="combine(ChargesSelected, PaymentsSelected).length > 0"
-        >Serão adicionados:</p>
+        >
+          Serão adicionados:
+        </p>
         <ul
           class="s1-U__pd--lt16"
-          :style="`column-count: ${Math.ceil(combine(ChargesSelected, PaymentsSelected).length / 4)}`"
+          :style="
+            `column-count: ${Math.ceil(
+              combine(ChargesSelected, PaymentsSelected).length / 4
+            )}`
+          "
         >
           <li
             v-for="pm in combine(ChargesSelected, PaymentsSelected).sort()"
             :key="`summary-${pm[0]}-${pm[1]}`"
           >
-            <span>{{pm[0]}}</span>
-            <span class="s1-U__mg--lt4 s1-U__text-lowercase">{{pm[1]}}</span>
+            <span>{{ pm[0] }}</span>
+            <span class="s1-U__mg--lt4 s1-U__text-lowercase">{{ pm[1] }}</span>
           </li>
         </ul>
       </md-dialog-content>
@@ -243,7 +320,9 @@
         <md-button
           class="md-raised md-primary"
           @click="closeDialog()"
-          :disabled="ChargesSelected.length === 0 || PaymentsSelected.length === 0"
+          :disabled="
+            ChargesSelected.length === 0 || PaymentsSelected.length === 0
+          "
         >
           <span class="s1-U__pd--lt8 s1-U__pd--rt8">Adicionar</span>
         </md-button>

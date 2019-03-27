@@ -6,9 +6,17 @@
     </div>
 
     <!-- NO PRODUCT DATA -->
-    <article class="s1-U__text-align--center s1-U__pd32" v-if="StoreData.Product.length === 0">
-      <p class="md-body-2 s1-U__mg--bt16 s1-U__text-color--dark-2">No registered products</p>
-      <md-button class="md-raised md-primary" @click="create('Product', 'Product-Name')">
+    <article
+      class="s1-U__text-align--center s1-U__pd32"
+      v-if="StoreData.Product.length === 0"
+    >
+      <p class="md-body-2 s1-U__mg--bt16 s1-U__text-color--dark-2">
+        No registered products
+      </p>
+      <md-button
+        class="md-raised md-primary"
+        @click="create('Product', 'Product-Name')"
+      >
         <div class="s1-U__align-children--center s1-U__pd--rt8 s1-U__pd--lt4">
           <md-icon class="s1-U__mg--rt4">add</md-icon>
           <span>product</span>
@@ -45,7 +53,7 @@
         >
           <md-card>
             <div class="s1-U__pd16">
-              <h2 class="md-title">{{product.Name}}</h2>
+              <h2 class="md-title">{{ product.Name }}</h2>
             </div>
             <div class="s1-U__text-align--right s1-U__pd16 s1-U__pd--tp0">
               <md-button

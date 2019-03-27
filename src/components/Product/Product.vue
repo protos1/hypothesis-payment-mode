@@ -2,7 +2,10 @@
   <div id="Product">
     <!-- MOCK -->
     <div class="s1-prop__auto-gen">
-      <md-button class="md-primary md-icon-button squared" @click="setMockData('Product');">
+      <md-button
+        class="md-primary md-icon-button squared"
+        @click="setMockData('Product')"
+      >
         <md-icon>person</md-icon>
       </md-button>
     </div>
@@ -26,7 +29,11 @@
     />
 
     <!-- DETAILS -->
-    <section class="s1-U__width--900px" style="margin: 0 auto;" v-if="Product.DetailInterface"></section>
+    <section
+      class="s1-U__width--900px"
+      style="margin: 0 auto;"
+      v-if="Product.DetailInterface"
+    ></section>
 
     <!-- CREATING -->
     <product-creating
@@ -68,7 +75,11 @@
       md-persistent
     >
       <span>Product created successfully</span>
-      <md-button class="md-accent" @click="Product.SuccessFeedbackCreating = false">OK</md-button>
+      <md-button
+        class="md-accent"
+        @click="Product.SuccessFeedbackCreating = false"
+        >OK</md-button
+      >
     </md-snackbar>
 
     <!-- EDIT FEEDBACK -->
@@ -78,7 +89,11 @@
       md-persistent
     >
       <span>Product edited successfully</span>
-      <md-button class="md-accent" @click="Product.SuccessFeedbackEditing = false">OK</md-button>
+      <md-button
+        class="md-accent"
+        @click="Product.SuccessFeedbackEditing = false"
+        >OK</md-button
+      >
     </md-snackbar>
 
     <!-- DELETE  FEEDBACK -->
@@ -88,7 +103,11 @@
       md-persistent
     >
       <span>Product deleted successfully</span>
-      <md-button class="md-accent" @click="Product.SuccessFeedbackDeletion = false">OK</md-button>
+      <md-button
+        class="md-accent"
+        @click="Product.SuccessFeedbackDeletion = false"
+        >OK</md-button
+      >
     </md-snackbar>
   </div>
 </template>
