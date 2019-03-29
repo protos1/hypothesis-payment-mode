@@ -86,7 +86,7 @@
         </div>
       </md-table-toolbar>
       <md-table-row
-        v-for="(pm, index) in AllPayments"
+        v-for="pm in AllPayments"
         :key="pm[0] + pm[1]"
         :style="`border-left: 3px solid ${getColor(pm[0])}`"
       >
@@ -109,97 +109,44 @@
                   pm[1] === 'Mista'
               "
             >
-              <md-button
-                style="min-width: auto"
-                class="squared md-dense"
-                @click="Installments[`${pm[0]} ${pm[1]}`].menu = true"
-              >
-                <div class="s1-U__align-children--center s1-U__pd--lt8">
-                  <!-- <span
-                    class="s1-U__text-lowercase"
-                  >Entre {{Installments[`${pm[0]} ${pm[1]}`].min}}x e {{Installments[`${pm[0]} ${pm[1]}`].max}}x</span>-->
-                  <span class="s1-U__text-lowercase"
-                    >em até {{ Installments[`${pm[0]} ${pm[1]}`].max }}x</span
-                  >
-                  <md-icon>arrow_drop_down</md-icon>
-                  <md-tooltip md-direction="left"
-                    >Configurar parcelas</md-tooltip
-                  >
-                </div>
-              </md-button>
-              <transition name="fade">
-                <md-card
-                  class="s1-U__pd16 s1-U__pd--tp8 s1-U__pd--bt8 s1-U__flex-shrink-0 s1-U__bg-color--white"
-                  v-show="Installments[`${pm[0]} ${pm[1]}`].menu"
-                  style="position: absolute; top: -8px; right: 0; z-index: 99"
+              <md-menu md-direction="bottom-end">
+                <md-button
+                  style="min-width: auto"
+                  class="squared md-dense"
+                  @click="
+                    menuContentScrollTo(
+                      `${pm[0]}${pm[1]}-menu-content`,
+                      Installments[`${pm[0]} ${pm[1]}`].max
+                    )
+                  "
+                  md-menu-trigger
                 >
-                  <div class="s1-U__align-children--center">
-                    <!-- <span class="s1-U__mg--rt8">Entre</span>
-                    <md-field
-                      class="md-field-helper-text s1-md-field--w50px s1-U__mg0"
-                      :md-counter="false"
+                  <div class="s1-U__align-children--center s1-U__pd--lt8">
+                    <!-- <span
+                      class="s1-U__text-lowercase"
+                    >Entre {{Installments[`${pm[0]} ${pm[1]}`].min}}x e {{Installments[`${pm[0]} ${pm[1]}`].max}}x</span>-->
+                    <span class="s1-U__text-lowercase"
+                      >em até {{ Installments[`${pm[0]} ${pm[1]}`].max }}x</span
                     >
-                      <md-input
-                        :id="`min-${index}`"
-                        :name="`min-${index}`"
-                        class="s1-U__text-align--center"
-                        type="number"
-                        maxlength="2"
-                        v-model="Installments[`${pm[0]} ${pm[1]}`].min"
-                        required
-                      ></md-input>
-                    </md-field>
-                    <span class="s1-U__mg--lt8 s1-U__mg--rt8">e</span>-->
-                    <span class="s1-U__mg--rt8" style="white-space: nowrap"
-                      >em até</span
+                    <md-icon>arrow_drop_down</md-icon>
+                    <md-tooltip md-direction="left"
+                      >Configurar parcelas</md-tooltip
                     >
-                    <!-- <md-field
-                      class="md-field-helper-text s1-md-field--w50px s1-U__mg0"
-                      :md-counter="false"
-                    >
-                      <md-input
-                        :id="`max-${index}`"
-                        :name="`max-${index}`"
-                        class="s1-U__text-align--center"
-                        type="number"
-                        maxlength="2"
-                        v-model="Installments[`${pm[0]} ${pm[1]}`].max"
-                        required
-                      ></md-input>
-                    </md-field>-->
-                    <md-field
-                      class="md-field-helper-text s1-U__mg0"
-                      style="width: 80px"
-                    >
-                      <md-select
-                        v-model="Installments[`${pm[0]} ${pm[1]}`].max"
-                        class="s1-U__pd--lt16"
-                        :id="`max-${index}`"
-                        :name="`max-${index}`"
-                        @blur="setPayments(AllPayments, Installments)"
-                      >
-                        <md-option
-                          v-for="n in 24"
-                          :key="`option-${n}`"
-                          :value="n"
-                          >{{ n }}</md-option
-                        >
-                      </md-select>
-                    </md-field>
-                    <span class="s1-U__mg--lt8 s1-U__mg--rt8">vezes</span>
-                    <md-button
-                      class="s1-md-bordered md-primary md-dense squared s1-U__mg--lt16 s1-U__flex-shrink-0"
-                      style="min-width: auto; transform: translateY(-2px)"
-                      @click="
-                        Installments[`${pm[0]} ${pm[1]}`].menu = false;
-                        setPayments(AllPayments, Installments);
-                      "
-                    >
-                      <span>OK</span>
-                    </md-button>
                   </div>
-                </md-card>
-              </transition>
+                </md-button>
+                <md-menu-content
+                  class="s1-loc__width--70px s1-U__no-min-width-force"
+                  :class="`${pm[0]}${pm[1]}-menu-content`"
+                >
+                  <md-menu-item
+                    v-for="n in 23"
+                    :key="`option-${n}`"
+                    id="${pm[0]}${pm[1]}-menu-content-${n}"
+                    @click="Installments[`${pm[0]} ${pm[1]}`].max = n + 1"
+                    >{{ n + 1 }}x</md-menu-item
+                  >
+                </md-menu-content>
+              </md-menu>
             </div>
             <md-button
               class="squared md-dense md-icon-button s1-U__mg--lt8"
@@ -467,6 +414,12 @@ export default {
         if (array.includes(item)) return true;
       }
       return isDisabled;
+    },
+    menuContentScrollTo(cl, value) {
+      setTimeout(() => {
+        let c = document.querySelector(`.${cl} .md-scrollbar`);
+        if (c) c.scrollTop = 8 + 48 * (value - 2);
+      }, 300);
     }
   },
   watch: {
