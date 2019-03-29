@@ -142,6 +142,10 @@ export default {
       Form: {
         Id: null,
         Name: null,
+        Description: null,
+        Vigence: 1,
+        Currency: 'real',
+        Price: '0',
         Payment: [],
         Installments: {
           'Crédito Parcelado': {
@@ -195,6 +199,10 @@ export default {
       DefaultForm: {
         Id: null,
         Name: null,
+        Description: null,
+        Vigence: 1,
+        Currency: 'real',
+        Price: '0',
         Payment: [],
         Installments: {
           'Crédito Parcelado': {
@@ -274,6 +282,9 @@ export default {
         Name: {
           required,
           minLength: minLength(4)
+        },
+        Vigence: {
+          required
         },
         Payment: {
           required,

@@ -1,5 +1,9 @@
 <template>
   <div>
+    <h2 class="s1-U__text-color--primary md-title s1-U__mg--tp24 s1-U__mg--bt4">
+      Pacotes
+    </h2>
+    <p class="s1-U__mg--bt40 md-display-1">...</p>
     <h2
       class="s1-U__text-color--primary md-title s1-U__mg--tp16 s1-U__mg--bt16"
     >
@@ -7,7 +11,7 @@
     </h2>
     <div class="s1-loc__md-field-wrapper s1-U__width--180px">
       <md-field
-        class="md-field-helper-text"
+        :md-counter="false"
         :class="{
           'md-invalid md-field-helper-text':
             $v.Product.Form.Name.$dirty && $v.Product.Form.Name.$invalid
@@ -32,6 +36,79 @@
         >
       </md-field>
     </div>
+    <div class="s1-loc__md-field-wrapper s1-U__width--400px">
+      <md-field :md-counter="false">
+        <label for="Product-Description">Descrição</label>
+        <md-textarea
+          id="Product-Description"
+          name="Product-Description"
+          v-model="Product.Form.Description"
+          :md-autogrow="Product.CreatingInterface"
+          maxlength="280"
+        ></md-textarea>
+      </md-field>
+    </div>
+    <h2
+      class="s1-U__text-color--primary md-title s1-U__mg--tp16 s1-U__mg--bt16"
+    >
+      Contratação
+    </h2>
+    <div class="s1-loc__md-field-wrapper">
+      <label class="s1-U__text-color--dark-2" for="Product-Vigence"
+        >Vigência</label
+      >
+      <div class="s1-U__align-children--center">
+        <md-field :md-counter="false" class="s1-md-field--w50px s1-U__mg--tp8">
+          <md-input
+            id="Product-Vigence"
+            name="Product-Vigence"
+            class="s1-U__text-align--center"
+            type="number"
+            @blur="
+              $v.Product.Form.Vigence.$touch();
+              Product.Form.Vigence = vigenceCheck(Product.Form.Vigence);
+            "
+            @focus="$v.Product.Form.Vigence.$reset()"
+            v-model="Product.Form.Vigence"
+            required
+          ></md-input>
+          <span class="md-error" v-if="!$v.Product.Form.Vigence.required"
+            >Required field</span
+          >
+        </md-field>
+        <span class="s1-U__mg--lt8">meses</span>
+      </div>
+    </div>
+    <div class="s1-loc__md-field-wrapper s1-U__width--100px">
+      <md-field>
+        <label for="Product-Currency">Moeda</label>
+        <md-select
+          id="Product-Currency"
+          name="Product-Currency"
+          v-model="Product.Form.Currency"
+          disabled
+        >
+          <md-option value="real">Real</md-option>
+        </md-select>
+      </md-field>
+    </div>
+    <div class="s1-loc__md-field-wrapper s1-loc__width--70px">
+      <md-field>
+        <label for="Product-Price">Valor</label>
+        <md-input
+          id="Product-Price"
+          name="Product-Price"
+          type="number"
+          @blur="Product.Form.Price = priceCheck(Product.Form.Price)"
+          v-model="Product.Form.Price"
+          required
+        />
+      </md-field>
+    </div>
+    <h2 class="s1-U__text-color--primary md-title s1-U__mg--tp24 s1-U__mg--bt4">
+      Certificado
+    </h2>
+    <p class="s1-U__mg--bt40 md-display-1">...</p>
     <h2
       class="s1-U__text-color--primary md-title s1-U__mg--tp16 s1-U__mg--bt16"
     >
@@ -141,6 +218,10 @@
                   <md-menu-item
                     v-for="n in 23"
                     :key="`option-${n}`"
+                    :class="{
+                      's1-loc__bg-color--grey':
+                        Installments[`${pm[0]} ${pm[1]}`].max === n + 1
+                    }"
                     id="${pm[0]}${pm[1]}-menu-content-${n}"
                     @click="Installments[`${pm[0]} ${pm[1]}`].max = n + 1"
                     >{{ n + 1 }}x</md-menu-item
@@ -159,6 +240,11 @@
         </md-table-cell>
       </md-table-row>
     </md-table>
+
+    <h2 class="s1-U__text-color--primary md-title s1-U__mg--tp48 s1-U__mg--bt4">
+      Comunicação
+    </h2>
+    <p class="s1-U__mg--bt40 md-display-1">...</p>
 
     <md-dialog :md-active.sync="showDialog">
       <div
@@ -275,6 +361,174 @@
         </md-button>
       </md-dialog-actions>
     </md-dialog>
+
+    <md-dialog :md-active.sync="preDialog" class="s1-U__width--540px">
+      <md-dialog-content class="s1-U__pd24">
+        <md-steppers :md-active-step.sync="stepperActive" md-vertical>
+          <md-step
+            id="first"
+            md-label="Tipo do produto"
+            :md-description="
+              stepperActive !== 'first'
+                ? ProductPackage === 'with'
+                  ? 'Criar produto com pacote'
+                  : 'Criar produto sem pacote'
+                : ''
+            "
+            :md-done.sync="first"
+          >
+            <h2
+              class="md-title s1-U__text-color--primary s1-U__mg--tp16 s1-U__mg--bt16"
+            >
+              Selecione o tipo de produto
+            </h2>
+            <div class="s1-U__pd--lt16">
+              <md-radio class="s1-U__mg0" v-model="ProductPackage" value="with"
+                >Criar produto com pacote</md-radio
+              >
+            </div>
+            <div class="s1-U__pd--lt16">
+              <md-radio
+                class="s1-U__mg0 s1-U__mg--tp8"
+                v-model="ProductPackage"
+                value="without"
+                >Criar produto sem pacote</md-radio
+              >
+            </div>
+            <md-button
+              class="md-primary s1-U__mg--tp32 s1-md-bordered"
+              @click="
+                ProductPackage === 'with'
+                  ? setDone('first', 'second')
+                  : setDone('first', 'third')
+              "
+            >
+              <div class="s1-U__align-children--center">
+                <span>Continuar</span>
+              </div>
+            </md-button>
+          </md-step>
+
+          <md-step
+            id="second"
+            md-label="Tipo de pacote"
+            :md-description="
+              stepperActive !== 'second'
+                ? PackageType === 'sale'
+                  ? 'Venda'
+                  : 'Benefício'
+                : ''
+            "
+            v-show="ProductPackage === 'with'"
+            :md-done.sync="second"
+          >
+            <h2
+              class="md-title s1-U__text-color--primary s1-U__mg--tp16 s1-U__mg--bt16"
+            >
+              Selecione o tipo de pacote que você quer adicionar
+            </h2>
+            <div class="s1-U__pd--lt16">
+              <md-radio class="s1-U__mg0" v-model="PackageType" value="sale"
+                >Venda</md-radio
+              >
+            </div>
+            <div class="s1-U__pd--lt16">
+              <md-radio
+                class="s1-U__mg0 s1-U__mg--tp8"
+                v-model="PackageType"
+                value="benefit"
+                >Benefício</md-radio
+              >
+            </div>
+            <md-button
+              class="md-primary s1-U__mg--tp32 s1-md-bordered"
+              @click="setDone('second', 'third')"
+            >
+              <div class="s1-U__align-children--center">
+                <span>Continuar</span>
+              </div>
+            </md-button>
+          </md-step>
+
+          <md-step
+            id="third"
+            md-label="Vigência do produto"
+            :md-description="
+              stepperActive !== 'third'
+                ? VigenceType === 'with'
+                  ? 'Com vigência definida'
+                  : 'Sem vigência definida (Recorrente infinito)'
+                : ''
+            "
+            :md-done.sync="third"
+          >
+            <h2
+              class="md-title s1-U__text-color--primary s1-U__mg--tp16 s1-U__mg--bt16"
+            >
+              Selecione o tipo de vigência do produto
+            </h2>
+            <div class="s1-U__pd--lt16">
+              <md-radio class="s1-U__mg0" v-model="VigenceType" value="with"
+                >Com vigência definida</md-radio
+              >
+            </div>
+            <div class="s1-U__pd--lt16">
+              <md-radio
+                class="s1-U__mg0 s1-U__mg--tp8"
+                v-model="VigenceType"
+                value="without"
+                >Sem vigência definida (Recorrente infinito)</md-radio
+              >
+            </div>
+            <md-button
+              class="md-primary s1-U__mg--tp32 s1-md-bordered"
+              @click="setDone('third', 'fourth')"
+            >
+              <div class="s1-U__align-children--center">
+                <span>Continuar</span>
+              </div>
+            </md-button>
+          </md-step>
+          <md-step id="fourth" md-label="Conclusão" :md-done.sync="fourth">
+            <h2
+              class="md-title s1-U__text-color--primary s1-U__mg--tp16 s1-U__mg--bt16"
+            >
+              Resumo do novo produto:
+            </h2>
+            <ul class="s1-U__pd--lt16">
+              <li>
+                {{
+                  ProductPackage === 'with'
+                    ? 'Produto com pacote;'
+                    : 'Produto sem pacote;'
+                }}
+              </li>
+              <li v-if="ProductPackage === 'with'">
+                {{
+                  PackageType === 'sale'
+                    ? 'Listar pacotes para venda;'
+                    : 'Listar pacotes para benefício;'
+                }}
+              </li>
+              <li>
+                {{
+                  VigenceType === 'with'
+                    ? 'Com vigência definida.'
+                    : 'Sem vigência definida (será recorrente infinito).'
+                }}
+              </li>
+            </ul>
+            <div class="s1-U__text-align--right">
+              <md-button
+                class="md-raised md-primary s1-U__mg--tp32"
+                @click="preDialog = false"
+                >Criar produto</md-button
+              >
+            </div>
+          </md-step>
+        </md-steppers>
+      </md-dialog-content>
+    </md-dialog>
   </div>
 </template>
 
@@ -285,6 +539,15 @@ export default {
   name: 'ProductForm',
   data: () => ({
     showDialog: false,
+    preDialog: true,
+    stepperActive: 'first',
+    first: false,
+    second: false,
+    third: false,
+    fourth: false,
+    ProductPackage: 'with',
+    VigenceType: 'with',
+    PackageType: 'sale',
     ChargeMethodOptions: ['Crédito', 'Débito', 'Boleta'],
     PaymentOptions: ['À vista', 'Parcelado', 'Recorrente', 'Mista'],
     ChargesSelected: [],
@@ -419,7 +682,20 @@ export default {
       setTimeout(() => {
         let c = document.querySelector(`.${cl} .md-scrollbar`);
         if (c) c.scrollTop = 8 + 48 * (value - 2);
-      }, 300);
+      }, 100);
+    },
+    vigenceCheck(vigence) {
+      return !vigence || vigence === '0' ? 1 : vigence;
+    },
+    priceCheck(price) {
+      return !price || parseFloat(price) < 0.01 ? 0 : price;
+    },
+    setDone(id, index) {
+      this[id] = true;
+
+      if (index) {
+        this.stepperActive = index;
+      }
     }
   },
   watch: {
