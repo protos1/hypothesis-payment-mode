@@ -1,7 +1,7 @@
 <template>
   <section class="s1-U__width--900px" style="margin: 0 auto;">
     <header class="s1-U__pd--bt32 s1-U__pd--tp32">
-      <div class="s1-U__align-children--center">
+      <div class="s1-U__align-children--center s1-U__flex-wrap">
         <md-button
           class="md-icon-button s1-U__mg--rt8"
           @click="Product.DiscardCreatingInterface = true"
@@ -9,6 +9,12 @@
           <md-icon>arrow_back</md-icon>
         </md-button>
         <h1 class="md-display-1">Criação de produto</h1>
+        <md-button
+          class="s1-U__mg--lt32 s1-md-bordered md-primary"
+          @click="showDialog = true"
+        >
+          trocar tipo de protudo
+        </md-button>
       </div>
     </header>
     <md-card>
@@ -27,6 +33,7 @@
           :StoreData="StoreData"
           :Product="Product"
           :$v="$v"
+          v-if="showForm"
         ></product-form>
       </md-content>
       <md-card-actions
@@ -51,14 +58,28 @@
       @md-cancel="Product.DiscardCreatingInterface = false"
       @md-confirm="discardCreating('Product')"
     />
+    <md-dialog-confirm
+      :md-active.sync="showDialog"
+      md-title="Descatar criação de produto?"
+      md-content="Ao sair, as informações de produto fornecidas serão perdidas"
+      md-confirm-text="Descartar"
+      md-cancel-text="Voltar"
+      @md-cancel="showDialog = false"
+      @md-confirm="resetForm()"
+    />
   </section>
 </template>
 
 <script>
 import ProductForm from './ProductForm.vue';
+import { setTimeout } from 'timers';
 
 export default {
   name: 'ProductCreating',
+  data: () => ({
+    showForm: true,
+    showDialog: false
+  }),
   components: {
     ProductForm
   },
@@ -68,7 +89,16 @@ export default {
     $v: Object,
     saveCreated: Function,
     discardCreating: Function,
+    create: Function,
     setPayments: Function
+  },
+  methods: {
+    resetForm() {
+      this.showForm = false;
+      setTimeout(() => {
+        this.showForm = true;
+      }, 0);
+    }
   }
 };
 </script>

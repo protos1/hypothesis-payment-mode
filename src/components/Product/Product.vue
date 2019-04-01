@@ -42,6 +42,7 @@
       :$v="$v"
       :saveCreated="saveCreated"
       :discardCreating="discardCreating"
+      :create="create"
       v-if="Product.CreatingInterface"
       :setPayments="setPayments"
     />
