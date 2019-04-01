@@ -1,9 +1,13 @@
 <template>
-  <div>
-    <h2 class="s1-U__text-color--primary md-title s1-U__mg--tp24 s1-U__mg--bt4">
-      Pacotes
-    </h2>
-    <p class="s1-U__mg--bt40 md-display-1">...</p>
+  <div :class="{ 's1-U__invisible': preDialog }">
+    <div v-show="ProductPackage === 'with'">
+      <h2
+        class="s1-U__text-color--primary md-title s1-U__mg--tp24 s1-U__mg--bt4"
+      >
+        Pacotes
+      </h2>
+      <p class="s1-U__mg--bt40 md-display-1">...</p>
+    </div>
     <h2
       class="s1-U__text-color--primary md-title s1-U__mg--tp16 s1-U__mg--bt16"
     >
@@ -53,7 +57,7 @@
     >
       Contratação
     </h2>
-    <div class="s1-loc__md-field-wrapper">
+    <div class="s1-loc__md-field-wrapper" v-show="VigenceType === 'with'">
       <label class="s1-U__text-color--dark-2" for="Product-Vigence"
         >Vigência</label
       >
@@ -79,7 +83,28 @@
         <span class="s1-U__mg--lt8">meses</span>
       </div>
     </div>
-    <div class="s1-loc__md-field-wrapper s1-U__width--100px">
+    <div
+      class="s1-loc__md-field-wrapper s1-loc__width--70px"
+      v-show="ProductPackage === 'with' && PackageType === 'sale'"
+    >
+      <label class="s1-U__text-color--dark-2">Moeda</label>
+      <div class="s1-U__align-children--center s1-U__mg--bt24">
+        <p class="s1-U__pd--rt8">Real</p>
+        <md-icon class="s1-U__flex-shrink-0">
+          <span class="s1-U__text-color--dark-3">link</span>
+        </md-icon>
+        <md-tooltip md-direction="right"
+          >Herdada do pacote Super XS Max 2000</md-tooltip
+        >
+      </div>
+    </div>
+    <div
+      class="s1-loc__md-field-wrapper s1-U__width--100px"
+      v-show="
+        ProductPackage === 'without' ||
+          (ProductPackage === 'with' && PackageType === 'benefit')
+      "
+    >
       <md-field>
         <label for="Product-Currency">Moeda</label>
         <md-select
@@ -92,18 +117,48 @@
         </md-select>
       </md-field>
     </div>
-    <div class="s1-loc__md-field-wrapper s1-loc__width--70px">
-      <md-field>
-        <label for="Product-Price">Valor</label>
-        <md-input
-          id="Product-Price"
-          name="Product-Price"
-          type="number"
-          @blur="Product.Form.Price = priceCheck(Product.Form.Price)"
-          v-model="Product.Form.Price"
-          required
-        />
-      </md-field>
+    <div class="s1-U__align-children--top s1-U__flex-wrap">
+      <div class="s1-loc__md-field-wrapper s1-loc__width--70px">
+        <md-field>
+          <label for="Product-Price">Valor</label>
+          <md-input
+            id="Product-Price"
+            name="Product-Price"
+            type="number"
+            @blur="Product.Form.Price = priceCheck(Product.Form.Price)"
+            v-model="Product.Form.Price"
+            required
+          />
+        </md-field>
+      </div>
+      <div
+        class="s1-U__pd--lt32"
+        v-show="ProductPackage === 'with'"
+        style="padding-top: 3px"
+      >
+        <label class="s1-U__text-color--dark-2" for="Product-Vigence"
+          >Valor do pacote</label
+        >
+        <p
+          class="md-body-2 s1-U__text-color--accent"
+          v-show="PackageType === 'benefit'"
+        >
+          <span>0,00</span>
+          <span class="md-caption s1-U__mg--lt4">(benefício)</span>
+          <md-tooltip md-direction="right"
+            >Valor do pacote XS Max 2000 BB</md-tooltip
+          >
+        </p>
+        <p
+          class="md-body-2 s1-U__text-color--accent"
+          v-show="PackageType === 'sale'"
+        >
+          <span>10,00</span>
+          <md-tooltip md-direction="right"
+            >Valor do pacote Super XS Max 2000</md-tooltip
+          >
+        </p>
+      </div>
     </div>
     <h2 class="s1-U__text-color--primary md-title s1-U__mg--tp24 s1-U__mg--bt4">
       Certificado
@@ -121,7 +176,10 @@
       </p>
       <md-button
         class="s1-md-bordered md-primary s1-U__mg--tp8"
-        @click="showDialog = true"
+        @click="
+          showDialog = true;
+          setRecurrent();
+        "
       >
         <span class="s1-U__pd--lt8 s1-U__pd--rt8"
           >Adicionar formas de pagamento</span
@@ -141,10 +199,14 @@
           <h3 class="md-body-2 s1-U__text-color--dark-2 s1-U__pd--lt12">
             {{ AllPayments.length }} adicionadas
           </h3>
+
           <div>
             <md-button
               class="s1-md-bordered md-dense md-primary"
-              @click="showDialog = !showDialog"
+              @click="
+                showDialog = true;
+                setRecurrent();
+              "
               :disabled="
                 AllPayments.length ===
                   ChargeMethodOptions.length * PaymentOptions.length
@@ -253,13 +315,13 @@
         <h2 class="md-headline">Formas de pagamento</h2>
         <md-button
           class="squared md-dense md-icon-button"
-          @click="closeDialog()"
+          @click="discardDialog()"
         >
           <md-icon>close</md-icon>
         </md-button>
       </div>
       <md-dialog-content class="s1-U__pd24">
-        <p class="s1-U__text-color--dark-2">
+        <p class="md-body-2 s1-U__text-color--primary">
           Formas de cobrança produto oferece:
         </p>
         <div>
@@ -289,31 +351,46 @@
           >
         </div>
 
-        <p class="s1-U__text-color--dark-2 s1-U__mg--tp24">
+        <p class="md-body-2 s1-U__text-color--primary s1-U__mg--tp24">
           Selecione as opções de pagamento que seu produto oferece:
         </p>
+        <div
+          class="md-caption s1-U__align-children--center"
+          v-show="VigenceType === 'without'"
+        >
+          Produto sem vigência definida (Recorrente infinito) *
+        </div>
         <md-checkbox
           class="s1-U__mg--rt48"
           v-model="PaymentsSelected"
-          :disabled="isPaymentDisable('À vista')"
-          :class="{ 's1-U__text-color--dark-3': isPaymentDisable('À vista') }"
+          :disabled="VigenceType === 'without' || isPaymentDisable('À vista')"
+          :class="{
+            's1-U__text-color--dark-3':
+              VigenceType === 'without' || isPaymentDisable('À vista')
+          }"
           value="À vista"
           >À vista</md-checkbox
         >
         <md-checkbox
           class="s1-U__mg--rt48"
           v-model="PaymentsSelected"
-          :disabled="isPaymentDisable('Parcelado')"
-          :class="{ 's1-U__text-color--dark-3': isPaymentDisable('Parcelado') }"
+          :disabled="VigenceType === 'without' || isPaymentDisable('Parcelado')"
+          :class="{
+            's1-U__text-color--dark-3':
+              VigenceType === 'without' || isPaymentDisable('Parcelado')
+          }"
           value="Parcelado"
           >Parcelado</md-checkbox
         >
         <md-checkbox
           class="s1-U__mg--rt48"
           v-model="PaymentsSelected"
-          :disabled="isPaymentDisable('Recorrente')"
+          :disabled="
+            VigenceType === 'without' || isPaymentDisable('Recorrente')
+          "
           :class="{
-            's1-U__text-color--dark-3': isPaymentDisable('Recorrente')
+            's1-U__text-color--dark-3':
+              VigenceType === 'without' || isPaymentDisable('Recorrente')
           }"
           value="Recorrente"
           >Recorrente</md-checkbox
@@ -321,13 +398,16 @@
         <md-checkbox
           class="s1-U__mg--rt48"
           v-model="PaymentsSelected"
-          :disabled="isPaymentDisable('Mista')"
-          :class="{ 's1-U__text-color--dark-3': isPaymentDisable('Mista') }"
+          :disabled="VigenceType === 'without' || isPaymentDisable('Mista')"
+          :class="{
+            's1-U__text-color--dark-3':
+              VigenceType === 'without' || isPaymentDisable('Mista')
+          }"
           value="Mista"
           >Mista</md-checkbox
         >
         <p
-          class="s1-U__text-color--dark-2 s1-U__mg--tp24"
+          class="md-body-2 s1-U__text-color--primary s1-U__mg--tp24"
           v-show="combine(ChargesSelected, PaymentsSelected).length > 0"
         >
           Serão adicionados:
@@ -362,8 +442,22 @@
       </md-dialog-actions>
     </md-dialog>
 
-    <md-dialog :md-active.sync="preDialog" class="s1-U__width--540px">
-      <md-dialog-content class="s1-U__pd24">
+    <md-dialog
+      :md-active.sync="preDialog"
+      class="s1-U__width--540px"
+      :md-click-outside-to-close="false"
+      :md-close-on-esc="false"
+      v-if="Product.CreatingInterface && !Product.DiscardCreatingInterface"
+    >
+      <header class="s1-U__pd--lt8 s1-U__pd--rt24 s1-U__pd--tp8 s1-U__pd--bt0">
+        <md-button
+          class="md-icon-button squared"
+          @click="Product.DiscardCreatingInterface = true"
+        >
+          <md-icon>arrow_back</md-icon>
+        </md-button>
+      </header>
+      <md-dialog-content class="s1-U__pd--lt24 s1-U__pd--rt24 s1-U__pd--tp0">
         <md-steppers :md-active-step.sync="stepperActive" md-vertical>
           <md-step
             id="first"
@@ -521,7 +615,10 @@
             <div class="s1-U__text-align--right">
               <md-button
                 class="md-raised md-primary s1-U__mg--tp32"
-                @click="preDialog = false"
+                @click="
+                  preDialog = false;
+                  focusInput();
+                "
                 >Criar produto</md-button
               >
             </div>
@@ -539,7 +636,7 @@ export default {
   name: 'ProductForm',
   data: () => ({
     showDialog: false,
-    preDialog: true,
+    preDialog: false,
     stepperActive: 'first',
     first: false,
     second: false,
@@ -696,6 +793,20 @@ export default {
       if (index) {
         this.stepperActive = index;
       }
+    },
+    setRecurrent() {
+      if (this.VigenceType === 'without') {
+        this.PaymentsSelected.push('Recorrente');
+      }
+    },
+    focusInput() {
+      document.getElementById('Product-Name').focus();
+    },
+    discardDialog() {
+      this.showDialog = false;
+
+      this.ChargesSelected = [];
+      this.PaymentsSelected = [];
     }
   },
   watch: {
@@ -706,6 +817,7 @@ export default {
   mounted() {
     this.AllPayments = _.cloneDeep(this.Product.Form.Payment);
     this.Installments = _.cloneDeep(this.Product.Form.Installments);
+    if (this.Product.CreatingInterface) this.preDialog = true;
   }
 };
 </script>

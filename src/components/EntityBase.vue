@@ -3,11 +3,11 @@
 </template>
 
 <script>
-import * as U from "../assets/utils/index.js";
-import _ from "lodash";
+import * as U from '../assets/utils/index.js';
+import _ from 'lodash';
 
 export default {
-  name: "EntityBase",
+  name: 'EntityBase',
   methods: {
     setMockData(entityName) {
       this[entityName].Data = [
@@ -18,7 +18,7 @@ export default {
     },
     create(entityName, idToFocus = null) {
       this[entityName].Form = _.cloneDeep(this[entityName].DefaultForm);
-      this[entityName].Form.Id = U.randomString(64, "#aA");
+      this[entityName].Form.Id = U.randomString(64, '#aA');
 
       this[entityName].CreatingInterface = true;
 
@@ -31,7 +31,7 @@ export default {
     },
     edit(entityName, id, idToFocus = null) {
       this[entityName].Form = {
-        ..._.cloneDeep(U.getObjByProp(this[entityName].Data, id, "Id"))
+        ..._.cloneDeep(U.getObjByProp(this[entityName].Data, id, 'Id'))
       };
       this[entityName].EditingInterface = true;
 

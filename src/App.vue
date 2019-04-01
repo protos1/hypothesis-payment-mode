@@ -23,19 +23,19 @@
             >
           </md-list-item>
           <md-list-item @click="setPage('Product')">
-            <md-icon>person</md-icon>
+            <md-icon>pool</md-icon>
             <span class="md-list-item-text">Products</span>
             <md-tooltip md-direction="right" v-show="!Settings.menuVisible"
               >Products</md-tooltip
             >
           </md-list-item>
-          <md-list-item @click="setPage('Profile')">
+          <!-- <md-list-item @click="setPage('Profile')">
             <md-icon>account_circle</md-icon>
             <span class="md-list-item-text">Profiles</span>
             <md-tooltip md-direction="right" v-show="!Settings.menuVisible"
               >Profiles</md-tooltip
             >
-          </md-list-item>
+          </md-list-item> -->
         </md-list>
       </md-app-drawer>
       <md-app-content

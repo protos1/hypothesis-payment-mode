@@ -8,7 +8,7 @@
         >
           <md-icon>arrow_back</md-icon>
         </md-button>
-        <h1 class="md-display-1">Product creation</h1>
+        <h1 class="md-display-1">Criação de produto</h1>
       </div>
     </header>
     <md-card>
@@ -37,17 +37,17 @@
           :disabled="$v.Product.Form.$invalid"
           @click="saveCreated('Product')"
         >
-          <span class="s1-U__pd--lt8 s1-U__pd--rt8">Create product</span>
+          <span class="s1-U__pd--lt8 s1-U__pd--rt8">Criar produto</span>
         </md-button>
       </md-card-actions>
     </md-card>
 
     <md-dialog-confirm
       :md-active.sync="Product.DiscardCreatingInterface"
-      md-title="Discard product registration?"
-      md-content="When you exit, the product information provided will be discarded."
-      md-confirm-text="discard"
-      md-cancel-text="back"
+      md-title="Descatar criação de produto?"
+      md-content="Ao sair, as informações de produto fornecidas serão perdidas"
+      md-confirm-text="Descartar"
+      md-cancel-text="Voltar"
       @md-cancel="Product.DiscardCreatingInterface = false"
       @md-confirm="discardCreating('Product')"
     />

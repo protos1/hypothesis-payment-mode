@@ -2,7 +2,7 @@
   <section class="s1-U__width--900px" style="margin: 0 auto;">
     <!-- MAIN TITLE -->
     <div class="s1-U__pd--bt32 s1-U__pd--tp32">
-      <h1 class="md-display-1">Products</h1>
+      <h1 class="md-display-1">Produtos</h1>
     </div>
 
     <!-- NO PRODUCT DATA -->
@@ -11,7 +11,7 @@
       v-if="StoreData.Product.length === 0"
     >
       <p class="md-body-2 s1-U__mg--bt16 s1-U__text-color--dark-2">
-        No registered products
+        Nenhum produto criado
       </p>
       <md-button
         class="md-raised md-primary"
@@ -19,7 +19,7 @@
       >
         <div class="s1-U__align-children--center s1-U__pd--rt8 s1-U__pd--lt4">
           <md-icon class="s1-U__mg--rt4">add</md-icon>
-          <span>product</span>
+          <span>produto</span>
         </div>
       </md-button>
     </article>
@@ -41,7 +41,7 @@
         >
           <div class="s1-U__align-children--center">
             <md-icon>add</md-icon>
-            <span>product</span>
+            <span>produto</span>
           </div>
         </md-button>
       </header>
@@ -55,7 +55,7 @@
             <div class="s1-U__pd16">
               <h2 class="md-title">{{ product.Name }}</h2>
             </div>
-            <div class="s1-U__text-align--right s1-U__pd16 s1-U__pd--tp0">
+            <!-- <div class="s1-U__text-align--right s1-U__pd16 s1-U__pd--tp0">
               <md-button
                 class="md-icon-button"
                 @click="remove('Product', product.Id, 'Name', 'product')"
@@ -68,7 +68,7 @@
               >
                 <md-icon>edit</md-icon>
               </md-button>
-            </div>
+            </div> -->
           </md-card>
         </div>
       </div>

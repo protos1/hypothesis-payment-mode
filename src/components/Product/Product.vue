@@ -1,14 +1,14 @@
 <template>
   <div id="Product">
     <!-- MOCK -->
-    <div class="s1-prop__auto-gen">
+    <!-- <div class="s1-prop__auto-gen">
       <md-button
         class="md-primary md-icon-button squared"
         @click="setMockData('Product')"
       >
         <md-icon>person</md-icon>
       </md-button>
-    </div>
+    </div> -->
 
     <!-- GENERAL LOADING -->
     <div
@@ -74,7 +74,7 @@
       :md-active.sync="Product.SuccessFeedbackCreating"
       md-persistent
     >
-      <span>Product created successfully</span>
+      <span>Produto criado com sucesso</span>
       <md-button
         class="md-accent"
         @click="Product.SuccessFeedbackCreating = false"
