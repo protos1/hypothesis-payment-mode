@@ -1,10 +1,9 @@
 <template>
   <section class="s1-U__width--900px" style="margin: 0 auto;">
     <header class="s1-U__pd--bt32 s1-U__pd--tp32">
-      <p
-        class="md-caption s1-U__mg--lt48 s1-U__pd--lt4"
-        v-if="Profile.Form.Id"
-      >{{getNameById(StoreData.Profile, Profile.Form.Id)}}</p>
+      <p class="md-caption s1-U__mg--lt48 s1-U__pd--lt4" v-if="Profile.Form.Id">
+        {{ getNameById(StoreData.Profile, Profile.Form.Id) }}
+      </p>
       <div class="s1-U__align-children--center">
         <md-button
           class="md-icon-button s1-U__mg--rt8"
@@ -24,10 +23,19 @@
       >
         <md-progress-spinner md-mode="indeterminate"></md-progress-spinner>
       </div>
-      <md-content class="md-scrollbar s1-U__pd16 s1-U__pd--lt48" style="overflow: auto">
-        <profile-form :StoreData="StoreData" :Profile="Profile" :$v="$v"></profile-form>
+      <md-content
+        class="md-scrollbar s1-U__pd16 s1-U__pd--lt48"
+        style="overflow: auto"
+      >
+        <profile-form
+          :StoreData="StoreData"
+          :Profile="Profile"
+          :$v="$v"
+        ></profile-form>
       </md-content>
-      <md-card-actions class="s1-U__pd16 s1-U__border--top1 s1-U__flex-shrink-0">
+      <md-card-actions
+        class="s1-U__pd16 s1-U__border--top1 s1-U__flex-shrink-0"
+      >
         <md-button
           class="md-primary md-raised"
           :disabled="$v.Profile.Form.$invalid"
@@ -51,10 +59,10 @@
 </template>
 
 <script>
-import ProfileForm from "./ProfileForm.vue";
+import ProfileForm from './ProfileForm.vue';
 
 export default {
-  name: "ProfileEditing",
+  name: 'ProfileEditing',
   components: {
     ProfileForm
   },

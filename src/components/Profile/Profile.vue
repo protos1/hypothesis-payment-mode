@@ -2,7 +2,10 @@
   <div id="Profile">
     <!-- MOCK -->
     <div class="s1-prop__auto-gen">
-      <md-button class="md-primary md-icon-button squared" @click="setMockData('Profile');">
+      <md-button
+        class="md-primary md-icon-button squared"
+        @click="setMockData('Profile')"
+      >
         <md-icon>person</md-icon>
       </md-button>
     </div>
@@ -26,7 +29,11 @@
     />
 
     <!-- DETAILS -->
-    <section class="s1-U__width--900px" style="margin: 0 auto;" v-if="Profile.DetailInterface"></section>
+    <section
+      class="s1-U__width--900px"
+      style="margin: 0 auto;"
+      v-if="Profile.DetailInterface"
+    ></section>
 
     <!-- CREATING -->
     <profile-creating
@@ -66,7 +73,11 @@
       md-persistent
     >
       <span>Profile created successfully</span>
-      <md-button class="md-accent" @click="Profile.SuccessFeedbackCreating = false">OK</md-button>
+      <md-button
+        class="md-accent"
+        @click="Profile.SuccessFeedbackCreating = false"
+        >OK</md-button
+      >
     </md-snackbar>
 
     <!-- EDIT FEEDBACK -->
@@ -76,7 +87,11 @@
       md-persistent
     >
       <span>Profile edited successfully</span>
-      <md-button class="md-accent" @click="Profile.SuccessFeedbackEditing = false">OK</md-button>
+      <md-button
+        class="md-accent"
+        @click="Profile.SuccessFeedbackEditing = false"
+        >OK</md-button
+      >
     </md-snackbar>
 
     <!-- DELETE  FEEDBACK -->
@@ -86,23 +101,27 @@
       md-persistent
     >
       <span>Profile deleted successfully</span>
-      <md-button class="md-accent" @click="Profile.SuccessFeedbackDeletion = false">OK</md-button>
+      <md-button
+        class="md-accent"
+        @click="Profile.SuccessFeedbackDeletion = false"
+        >OK</md-button
+      >
     </md-snackbar>
   </div>
 </template>
 
 <script>
-import { required } from "vuelidate/lib/validators";
-import EntityBase from "../EntityBase";
+import { required } from 'vuelidate/lib/validators';
+import EntityBase from '../EntityBase';
 
-import Profiles from "../../data/Profiles.js";
+import Profiles from '../../data/Profiles.js';
 
-import ProfileContent from "./ProfileContent.vue";
-import ProfileCreating from "./ProfileCreating.vue";
-import ProfileEditing from "./ProfileEditing.vue";
+import ProfileContent from './ProfileContent.vue';
+import ProfileCreating from './ProfileCreating.vue';
+import ProfileEditing from './ProfileEditing.vue';
 
 export default {
-  name: "Profile",
+  name: 'Profile',
   extends: EntityBase,
   props: {
     StoreData: Object,
@@ -119,6 +138,7 @@ export default {
     Profile: {
       Form: {
         Id: null,
+
         Name: null,
         Abbr: null
       },

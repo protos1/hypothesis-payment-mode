@@ -6,9 +6,17 @@
     </div>
 
     <!-- NO PROFILE DATA -->
-    <article class="s1-U__text-align--center s1-U__pd32" v-if="StoreData.Profile.length === 0">
-      <p class="md-body-2 s1-U__mg--bt16 s1-U__text-color--dark-2">No registered profiles</p>
-      <md-button class="md-raised md-primary" @click="create('Profile', 'Profile-Name')">
+    <article
+      class="s1-U__text-align--center s1-U__pd32"
+      v-if="StoreData.Profile.length === 0"
+    >
+      <p class="md-body-2 s1-U__mg--bt16 s1-U__text-color--dark-2">
+        No registered profiles
+      </p>
+      <md-button
+        class="md-raised md-primary"
+        @click="create('Profile', 'Profile-Name')"
+      >
         <div class="s1-U__align-children--center s1-U__pd--rt8 s1-U__pd--lt4">
           <md-icon class="s1-U__mg--rt4">add</md-icon>
           <span>profile</span>
@@ -45,8 +53,8 @@
         >
           <md-card>
             <div class="s1-U__pd16">
-              <h2 class="md-title">{{profile.Name}}</h2>
-              <p class="md-caption">{{profile.Abbr}}</p>
+              <h2 class="md-title">{{ profile.Name }}</h2>
+              <p class="md-caption">{{ profile.Abbr }}</p>
             </div>
             <div class="s1-U__text-align--right s1-U__pd16 s1-U__pd--tp0">
               <md-button
@@ -71,7 +79,7 @@
 
 <script>
 export default {
-  name: "ProfileContent",
+  name: 'ProfileContent',
   props: {
     Profile: Object,
     StoreData: Object,
