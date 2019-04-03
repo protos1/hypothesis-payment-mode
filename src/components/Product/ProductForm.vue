@@ -428,6 +428,46 @@
             <span class="s1-U__mg--lt4 s1-U__text-lowercase">{{ pm[1] }}</span>
           </li>
         </ul>
+        <p
+          class="md-body-2 s1-U__mg--tp40"
+          style="color: red"
+          v-show="
+            (ChargesSelected.includes('Débito') &&
+              PaymentsSelected.includes('Parcelado')) ||
+              (ChargesSelected.includes('Débito') &&
+                PaymentsSelected.includes('Mista')) ||
+              (ChargesSelected.includes('Boleta') &&
+                PaymentsSelected.includes('Mista'))
+          "
+        >
+          Não serão adicionados (não existem essas combinações):
+        </p>
+        <ul class="s1-U__pd--lt16">
+          <li
+            v-show="
+              ChargesSelected.includes('Débito') &&
+                PaymentsSelected.includes('Parcelado')
+            "
+          >
+            Débito parcelado
+          </li>
+          <li
+            v-show="
+              ChargesSelected.includes('Débito') &&
+                PaymentsSelected.includes('Mista')
+            "
+          >
+            Débito mista
+          </li>
+          <li
+            v-show="
+              ChargesSelected.includes('Boleta') &&
+                PaymentsSelected.includes('Mista')
+            "
+          >
+            Boleto mista
+          </li>
+        </ul>
       </md-dialog-content>
       <md-dialog-actions class="s1-U__pd24 s1-U__flex-shrink-0">
         <md-button
@@ -465,8 +505,8 @@
             :md-description="
               stepperActive !== 'first'
                 ? ProductPackage === 'with'
-                  ? 'Criar produto com pacote'
-                  : 'Criar produto sem pacote'
+                  ? 'Produto com pacote de serviços'
+                  : 'Produto sem pacote de serviços'
                 : ''
             "
             :md-done.sync="first"
@@ -478,7 +518,7 @@
             </h2>
             <div class="s1-U__pd--lt16">
               <md-radio class="s1-U__mg0" v-model="ProductPackage" value="with"
-                >Criar produto com pacote</md-radio
+                >Produto com pacote de serviços</md-radio
               >
             </div>
             <div class="s1-U__pd--lt16">
@@ -486,7 +526,7 @@
                 class="s1-U__mg0 s1-U__mg--tp8"
                 v-model="ProductPackage"
                 value="without"
-                >Criar produto sem pacote</md-radio
+                >Produto sem pacote de serviços</md-radio
               >
             </div>
             <md-button
@@ -600,8 +640,8 @@
               <li v-if="ProductPackage === 'with'">
                 {{
                   PackageType === 'sale'
-                    ? 'Listar pacotes para venda;'
-                    : 'Listar pacotes para benefício;'
+                    ? 'Pacotes para venda;'
+                    : 'Pacotes para benefício;'
                 }}
               </li>
               <li>
@@ -617,10 +657,7 @@
                 class="md-raised md-primary s1-U__mg--tp32"
                 @click="
                   preDialog = false;
-                  focusInput();
-                "
-                >Criar produto</md-button
-              >
+                  focusInput();">Criar produto</md-button><!-- eslint-disable-line -->
             </div>
           </md-step>
         </md-steppers>
@@ -718,6 +755,12 @@ export default {
       const array = [];
       for (var i = 0; i < arr1.length; i++) {
         for (var j = 0; j < arr2.length; j++) {
+          if (
+            (arr1[i] === 'Débito' && arr2[j] === 'Parcelado') ||
+            (arr1[i] === 'Débito' && arr2[j] === 'Mista') ||
+            (arr1[i] === 'Boleta' && arr2[j] === 'Mista')
+          )
+            continue;
           array.push([arr1[i], arr2[j]]);
         }
       }
@@ -757,6 +800,7 @@ export default {
 
         if (array.includes(item)) return true;
       }
+
       return isDisabled;
     },
     isChargeDisable(item) {
