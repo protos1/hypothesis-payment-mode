@@ -657,7 +657,7 @@
                 class="md-raised md-primary s1-U__mg--tp32"
                 @click="
                   preDialog = false;
-                  focusInput();">Criar produto</md-button><!-- eslint-disable-line -->
+                  focusInput(); ProductPackage === 'with' ? Product.Form.Price = priceCheck(Product.Form.Price) : null">Criar produto</md-button><!-- eslint-disable-line -->
             </div>
           </md-step>
         </md-steppers>
@@ -829,7 +829,11 @@ export default {
       return !vigence || vigence === '0' ? 1 : vigence;
     },
     priceCheck(price) {
-      return !price || parseFloat(price) < 0.01 ? 0 : price;
+      if (this.ProductPackage === 'with') {
+        return !price || parseFloat(price) < 10 ? 10 : price;
+      } else {
+        return !price || parseFloat(price) < 0.01 ? 0 : price;
+      }
     },
     setDone(id, index) {
       this[id] = true;
