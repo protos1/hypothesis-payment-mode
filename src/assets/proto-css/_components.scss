@@ -6,3 +6,12 @@
 .s1-loc__bg-color--grey {
   background-color: #efefef;
 }
+
+.s1-loc__max-height-95 {
+  max-height: 95%;
+  @media (max-width: 600px) {
+    &.md-dialog-fullscreen {
+      max-height: 100%;
+    }
+  }
+}

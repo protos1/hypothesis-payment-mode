@@ -160,10 +160,6 @@
         </p>
       </div>
     </div>
-    <h2 class="s1-U__text-color--primary md-title s1-U__mg--tp24 s1-U__mg--bt4">
-      Certificado
-    </h2>
-    <p class="s1-U__mg--bt40 md-display-1">...</p>
     <h2
       class="s1-U__text-color--primary md-title s1-U__mg--tp16 s1-U__mg--bt16"
     >
@@ -302,13 +298,16 @@
         </md-table-cell>
       </md-table-row>
     </md-table>
-
+    <h2 class="s1-U__text-color--primary md-title s1-U__mg--tp40 s1-U__mg--bt4">
+      Certificado
+    </h2>
+    <p class="s1-U__mg--bt40 md-display-1">...</p>
     <h2 class="s1-U__text-color--primary md-title s1-U__mg--tp48 s1-U__mg--bt4">
       Comunicação
     </h2>
     <p class="s1-U__mg--bt40 md-display-1">...</p>
 
-    <md-dialog :md-active.sync="showDialog">
+    <md-dialog :md-active.sync="showDialog" class="s1-loc__max-height-95">
       <div
         class="s1-U__pd24 s1-U__align-children--center s1-U__justify-content--space-between s1-U__flex-shrink-0"
       >
